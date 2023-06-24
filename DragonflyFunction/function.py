@@ -10,6 +10,7 @@ CLIENT_ID = getenv("CLIENT_ID")
 CLIENT_SECRET = getenv("CLIENT_SECRET")
 USERNAME = getenv("USERNAME")
 PASSWORD = getenv("PASSWORD")
+AUDIENCE = getenv("AUDIENCE", "https://dragonfly.vipyrsec.com")
 
 
 async def get_access_token(*, http_session: aiohttp.ClientSession) -> str:
@@ -18,6 +19,8 @@ async def get_access_token(*, http_session: aiohttp.ClientSession) -> str:
         client_secret=CLIENT_SECRET,
         username=USERNAME,
         password=PASSWORD,
+        audience=AUDIENCE,
+        grant_type="password",
     )
 
     async with http_session.post(f"{AUTH0_URL}/oauth/token", json=payload) as res:
