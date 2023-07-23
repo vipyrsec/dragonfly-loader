@@ -3,6 +3,7 @@ from requests import Session
 
 from cronjob.settings import Settings, get_settings
 
+
 def get_access_token(*, http_session: Session, settings: Settings) -> str:
     payload = dict(
         client_id=settings.client_id,
@@ -16,6 +17,7 @@ def get_access_token(*, http_session: Session, settings: Settings) -> str:
     res = http_session.post(f"https://{settings.auth0_domain}/oauth/token", json=payload)
     json = res.json()
     return json["access_token"]
+
 
 def main() -> None:
     http_session = Session()

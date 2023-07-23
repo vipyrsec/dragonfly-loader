@@ -8,10 +8,12 @@ import pytest
 from cronjob import cronjob
 from pytest import MonkeyPatch
 
+
 @dataclass
 class MockPackage:
     title: str
     version: str
+
 
 environment_variables = {
     "DRAGONFLY_API_URL": "https://example.com",
@@ -23,10 +25,12 @@ environment_variables = {
     "AUDIENCE": "test audience",
 }
 
+
 @pytest.fixture
 def mock_env(monkeypatch: MonkeyPatch):
     for k, v in environment_variables.items():
         monkeypatch.setenv(k, v)
+
 
 @pytest.fixture
 def mock_rss_data() -> list[MockPackage]:
@@ -35,6 +39,7 @@ def mock_rss_data() -> list[MockPackage]:
         MockPackage(title="b", version="1.0.1"),
         MockPackage(title="c", version="1.0.2"),
     ]
+
 
 def mock_http_session_post_side_effect(*args, **kwargs):
     if args[0] == "https://" + environment_variables["AUTH0_DOMAIN"] + "/oauth/token":
@@ -50,6 +55,7 @@ def mock_http_session_post_side_effect(*args, **kwargs):
 
     return DEFAULT
 
+
 def test_cronjob(mock_env, mock_rss_data: list[MockPackage]):
     mock_http_session = MagicMock()
     mock_http_session.post = MagicMock(side_effect=mock_http_session_post_side_effect)
@@ -57,7 +63,11 @@ def test_cronjob(mock_env, mock_rss_data: list[MockPackage]):
     mock_pypi_client = MagicMock()
     mock_pypi_client.get_rss_feed = MagicMock(return_value=mock_rss_data)
 
-    with patch.multiple("cronjob.cronjob", Session=Mock(return_value=mock_http_session), PyPIServices=Mock(return_value=mock_pypi_client)):
+    with patch.multiple(
+        "cronjob.cronjob",
+        Session=Mock(return_value=mock_http_session),
+        PyPIServices=Mock(return_value=mock_pypi_client),
+    ):
         cronjob.main()
         mock_http_session.post.assert_any_call(
             f"https://{environment_variables['AUTH0_DOMAIN']}/oauth/token",

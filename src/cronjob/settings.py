@@ -17,6 +17,7 @@ class Settings:
 
     audience: str
 
+
 def get_settings() -> Settings:
     load_dotenv()
 
