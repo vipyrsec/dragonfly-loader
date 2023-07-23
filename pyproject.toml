@@ -13,6 +13,9 @@ dev = [
     "pre-commit",
     "black",
     "ruff",
+]
+
+tests = [
     "pytest",
 ]
 
