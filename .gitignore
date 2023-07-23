@@ -16,8 +16,7 @@ eggs/
 .eggs/
 lib/
 lib64/
-parts/
-sdist/
+sdistt/
 var/
 wheels/
 pip-wheel-metadata/
@@ -132,4 +131,4 @@ local.settings.json
 __blobstorage__
 __queuestorage__
 __azurite_db*__.json
-.python_packages
+.python_packages.pdm-python

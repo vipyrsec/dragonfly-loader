@@ -1,0 +1,3 @@
+letsbuilda-pypi>=5.0.0b3
+requests
+python-dotenv
