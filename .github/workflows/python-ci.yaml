@@ -18,11 +18,11 @@ jobs:
     needs: lint
     strategy:
       matrix:
-        os: 
+        os:
           - "macos-latest"
           - "windows-latest"
           - "ubuntu-latest"
-        python-version: 
+        python-version:
           - "3.9"
           - "3.10"
           - "3.11"
@@ -31,4 +31,3 @@ jobs:
     with:
       os: ${{ matrix.os }}
       python-version: ${{ matrix.python-version }}
-
