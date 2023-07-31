@@ -1,7 +1,7 @@
 from letsbuilda.pypi import PyPIServices
 from requests import Session
 
-from cronjob.settings import Settings, get_settings
+from loader.settings import Settings, get_settings
 
 
 def get_access_token(*, http_session: Session, settings: Settings) -> str:

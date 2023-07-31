@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from unittest.mock import DEFAULT, MagicMock, Mock, patch
 
 import pytest
-from cronjob import cronjob
+from loader import loader
 from pytest import MonkeyPatch
 
 
@@ -56,7 +56,7 @@ def mock_http_session_post_side_effect(*args, **kwargs):
     return DEFAULT
 
 
-def test_cronjob(mock_env, mock_rss_data: list[MockPackage]):
+def test_loader(mock_env, mock_rss_data: list[MockPackage]):
     mock_http_session = MagicMock()
     mock_http_session.post = MagicMock(side_effect=mock_http_session_post_side_effect)
 
@@ -64,11 +64,11 @@ def test_cronjob(mock_env, mock_rss_data: list[MockPackage]):
     mock_pypi_client.get_rss_feed = MagicMock(return_value=mock_rss_data)
 
     with patch.multiple(
-        "cronjob.cronjob",
+        "loader.loader",
         Session=Mock(return_value=mock_http_session),
         PyPIServices=Mock(return_value=mock_pypi_client),
     ):
-        cronjob.main()
+        loader.main()
         mock_http_session.post.assert_any_call(
             f"https://{environment_variables['AUTH0_DOMAIN']}/oauth/token",
             json=dict(
