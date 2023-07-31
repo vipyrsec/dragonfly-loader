@@ -1,0 +1,34 @@
+
+[project]
+name = "dragonfly-cronjob"
+version = "1.0.0"
+description = "Loads all the packages from the PyPI RSS feed into the Dragonfly API"
+dynamic = ["dependencies"]
+
+[project.urls]
+repository = "https://github.com/vipyrsec/dragonfly-functions/"
+
+[project.optional-dependencies]
+dev = [
+    "pip-tools",
+    "pre-commit",
+    "black",
+    "ruff",
+]
+
+tests = [
+    "pytest",
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.dynamic.dependencies]
+file = ["requirements.txt"]
+
+[tool.black]
+line-length = 120
+
+[tool.ruff]
+line-length = 120
