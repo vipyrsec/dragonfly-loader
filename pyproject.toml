@@ -1,6 +1,6 @@
 [project]
 name = "dragonfly-loader"
-version = "1.0.0"
+version = "1.0.1"
 description = "Loads all the packages from the PyPI RSS feed into the Dragonfly API"
 dynamic = ["dependencies"]
 
@@ -27,7 +27,21 @@ build-backend = "setuptools.build_meta"
 file = ["requirements.txt"]
 
 [tool.black]
+target-version = ["py311"]
 line-length = 120
 
 [tool.ruff]
+target-version = "py311"
 line-length = 120
+select = ["ALL"]
+
+[tool.ruff.extend-per-file-ignores]
+"tests/*" = [
+    "INP001", # (File `tests/*.py` is part of an implicit namespace package. Add an `__init__.py`.) - Tests are not modules
+    "S101", # (Use of `assert` detected) - Yes, that's the point
+    "PT004", # (Fixture `*` does not return anything, add leading underscore) - Used for pytest fixtures
+    "ARG001", # (Unused function argument: `*`) - Used for pytest fixtures
+]
+
+[tool.ruff.pydocstyle]
+convention = "numpy"

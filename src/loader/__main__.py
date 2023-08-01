@@ -1,4 +1,4 @@
-"""Entry point for the loader"""
+"""Entry point for the loader."""
 
 from .loader import main
 
