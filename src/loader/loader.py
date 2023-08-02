@@ -1,8 +1,9 @@
 """Main entrypoint for the loader."""
 
+import pika
 from letsbuilda.pypi import PyPIServices
 from requests import Session
-import pika
+
 from loader.constants import Settings
 from loader.models import Job
 
@@ -31,7 +32,6 @@ def main() -> None:
             distributions=[distribution.url for distribution in distributions],
         )
         body = job.model_dump_json()
-        print(body)
         channel.basic_publish("jobs", routing_key="jobs", body=body)
 
     connection.close()

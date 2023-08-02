@@ -1,7 +1,6 @@
 """Stub test file."""
 
 
-def test_smoke():
-    """Smoke test for CI"""
-
-    assert True is True
+def test_smoke() -> None:
+    """Smoke test for CI."""
+    assert True
