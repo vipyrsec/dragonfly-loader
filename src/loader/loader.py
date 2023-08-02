@@ -6,6 +6,7 @@ import pika
 from loader.constants import Settings
 from loader.models import Job
 
+
 def main() -> None:
     """Run the loader."""
     http_session = Session()
@@ -34,4 +35,3 @@ def main() -> None:
         channel.basic_publish("jobs", routing_key="jobs", body=body)
 
     connection.close()
-
