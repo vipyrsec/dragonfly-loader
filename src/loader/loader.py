@@ -1,39 +1,37 @@
 """Main entrypoint for the loader."""
 
+import pika
 from letsbuilda.pypi import PyPIServices
 from requests import Session
 
-from loader.settings import Settings, get_settings
-
-
-def get_access_token(*, http_session: Session, settings: Settings) -> str:
-    """Get an access token from Auth0."""
-    payload = {
-        "client_id": settings.client_id,
-        "client_secret": settings.client_secret,
-        "username": settings.username,
-        "password": settings.password,
-        "audience": settings.audience,
-        "grant_type": "password",
-    }
-
-    res = http_session.post(f"https://{settings.auth0_domain}/oauth/token", json=payload)
-    json = res.json()
-    return json["access_token"]
+from loader.constants import Settings
+from loader.models import Job
 
 
 def main() -> None:
     """Run the loader."""
     http_session = Session()
     pypi_client = PyPIServices(http_session)
-    settings = get_settings()
 
-    access_token = get_access_token(http_session=http_session, settings=settings)
+    rss_packages = pypi_client.get_rss_feed(PyPIServices.PACKAGE_UPDATES_FEED_URL)
 
-    packages = pypi_client.get_rss_feed(PyPIServices.PACKAGE_UPDATES_FEED_URL)
-    payload = [{"name": package.title, "version": package.version} for package in packages]
-    headers = {"Authorization": "Bearer " + access_token}
+    connection_parameters = pika.ConnectionParameters(host=Settings.amqp_host, port=Settings.amqp_port)
+    connection = pika.BlockingConnection(connection_parameters)
+    channel = connection.channel()
+    channel.queue_declare("jobs")
+    channel.exchange_declare("jobs")
+    channel.queue_bind(queue="jobs", exchange="jobs")
 
-    http_session.post(f"{settings.base_url}/batch/package", json=payload, headers=headers)
+    for rss_package in rss_packages:
+        package = pypi_client.get_package_metadata(rss_package.title, rss_package.version)
+        release = package.releases[0]
+        distributions = release.distributions
+        job = Job(
+            name=package.title,
+            version=release.version,
+            distributions=[distribution.url for distribution in distributions],
+        )
+        body = job.model_dump_json()
+        channel.basic_publish("jobs", routing_key="jobs", body=body)
 
-    http_session.close()
+    connection.close()
