@@ -18,6 +18,7 @@ def get_access_token(*, http_session: Session, settings: Settings) -> str:
     }
 
     res = http_session.post(f"https://{settings.auth0_domain}/oauth/token", json=payload)
+    res.raise_for_status()
     json = res.json()
     return json["access_token"]
 
@@ -34,6 +35,7 @@ def main() -> None:
     payload = [{"name": package.title, "version": package.version} for package in packages]
     headers = {"Authorization": "Bearer " + access_token}
 
-    http_session.post(f"{settings.base_url}/batch/package", json=payload, headers=headers)
+    res = http_session.post(f"{settings.base_url}/batch/package", json=payload, headers=headers)
+    res.raise_for_status()
 
     http_session.close()
