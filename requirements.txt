@@ -4,6 +4,8 @@
 #
 #    pip-compile requirements.in
 #
+annotated-types==0.5.0
+    # via pydantic
 anyio==4.0.0
     # via httpcore
 certifi==2023.7.22
@@ -26,8 +28,16 @@ idna==3.4
     #   requests
 letsbuilda-pypi==5.0.0
     # via -r requirements.in
-python-dotenv==1.0.0
+pydantic==2.4.2
+    # via pydantic-settings
+pydantic-core==2.10.1
+    # via pydantic
+pydantic-settings==2.0.3
     # via -r requirements.in
+python-dotenv==1.0.0
+    # via
+    #   -r requirements.in
+    #   pydantic-settings
 requests==2.31.0
     # via -r requirements.in
 sniffio==1.3.0
@@ -35,7 +45,11 @@ sniffio==1.3.0
     #   anyio
     #   httpcore
     #   httpx
-urllib3==2.0.4
+typing-extensions==4.8.0
+    # via
+    #   pydantic
+    #   pydantic-core
+urllib3==2.0.5
     # via requests
 xmltodict==0.13.0
     # via letsbuilda-pypi
