@@ -1,12 +1,12 @@
 """Main entrypoint for the loader."""
 
+import httpx
 from letsbuilda.pypi import PyPIServices
-from requests import Session
 
 from loader.settings import Settings, get_settings
 
 
-def get_access_token(*, http_session: Session, settings: Settings) -> str:
+def get_access_token(*, http_client: httpx.Client, settings: Settings) -> str:
     """Get an access token from Auth0."""
     payload = {
         "client_id": settings.client_id,
@@ -17,7 +17,7 @@ def get_access_token(*, http_session: Session, settings: Settings) -> str:
         "grant_type": "password",
     }
 
-    res = http_session.post(f"https://{settings.auth0_domain}/oauth/token", json=payload)
+    res = http_client.post(f"https://{settings.auth0_domain}/oauth/token", json=payload)
     res.raise_for_status()
     json = res.json()
     return json["access_token"]
@@ -25,17 +25,17 @@ def get_access_token(*, http_session: Session, settings: Settings) -> str:
 
 def main() -> None:
     """Run the loader."""
-    http_session = Session()
-    pypi_client = PyPIServices(http_session)
+    http_client = httpx.Client()
+    pypi_client = PyPIServices(http_client)
     settings = get_settings()
 
-    access_token = get_access_token(http_session=http_session, settings=settings)
+    access_token = get_access_token(http_client=http_client, settings=settings)
 
     packages = pypi_client.get_rss_feed(PyPIServices.PACKAGE_UPDATES_FEED_URL)
     payload = [{"name": package.title, "version": package.version} for package in packages]
     headers = {"Authorization": "Bearer " + access_token}
 
-    res = http_session.post(f"{settings.base_url}/batch/package", json=payload, headers=headers)
+    res = http_client.post(f"{settings.base_url}/batch/package", json=payload, headers=headers)
     res.raise_for_status()
 
-    http_session.close()
+    http_client.close()
