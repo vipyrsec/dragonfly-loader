@@ -1,12 +1,12 @@
 """Main entrypoint for the loader."""
 
-import httpx
+from httpx import Client
 from letsbuilda.pypi import PyPIServices
 
 from loader.settings import Settings, get_settings
 
 
-def get_access_token(*, http_client: httpx.Client, settings: Settings) -> str:
+def get_access_token(*, http_client: Client, settings: Settings) -> str:
     """Get an access token from Auth0."""
     payload = {
         "client_id": settings.client_id,
@@ -25,7 +25,7 @@ def get_access_token(*, http_client: httpx.Client, settings: Settings) -> str:
 
 def main() -> None:
     """Run the loader."""
-    http_client = httpx.Client()
+    http_client = Client()
     pypi_client = PyPIServices(http_client)
     settings = get_settings()
 

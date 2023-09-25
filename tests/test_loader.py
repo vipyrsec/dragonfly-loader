@@ -61,19 +61,19 @@ def mock_http_session_post_side_effect(*args: list, **_kwargs: dict) -> Mock:
 
 def test_loader(mock_env, mock_rss_data: list[MockPackage]) -> None:  # noqa: ANN001 - unclear
     """Test the loader."""
-    mock_http_session = MagicMock()
-    mock_http_session.post = MagicMock(side_effect=mock_http_session_post_side_effect)
+    mock_http_client = MagicMock()
+    mock_http_client.post = MagicMock(side_effect=mock_http_session_post_side_effect)
 
     mock_pypi_client = MagicMock()
     mock_pypi_client.get_rss_feed = MagicMock(return_value=mock_rss_data)
 
     with patch.multiple(
         "loader.loader",
-        Session=Mock(return_value=mock_http_session),
+        Client=Mock(return_value=mock_http_client),
         PyPIServices=Mock(return_value=mock_pypi_client),
     ):
         loader.main()
-        mock_http_session.post.assert_any_call(
+        mock_http_client.post.assert_any_call(
             f"https://{environment_variables['AUTH0_DOMAIN']}/oauth/token",
             json={
                 "client_id": environment_variables["CLIENT_ID"],
@@ -85,7 +85,7 @@ def test_loader(mock_env, mock_rss_data: list[MockPackage]) -> None:  # noqa: AN
             },
         )
 
-        mock_http_session.post.assert_any_call(
+        mock_http_client.post.assert_any_call(
             f"{environment_variables['DRAGONFLY_API_URL']}/batch/package",
             json=[{"name": p.title, "version": p.version} for p in mock_rss_data],
             headers={"Authorization": "Bearer test-access-token"},
