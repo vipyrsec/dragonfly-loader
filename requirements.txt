@@ -4,20 +4,37 @@
 #
 #    pip-compile requirements.in
 #
+anyio==4.0.0
+    # via httpcore
 certifi==2023.7.22
-    # via requests
+    # via
+    #   httpcore
+    #   httpx
+    #   requests
 charset-normalizer==3.2.0
     # via requests
+h11==0.14.0
+    # via httpcore
+httpcore==0.18.0
+    # via httpx
+httpx==0.25.0
+    # via letsbuilda-pypi
 idna==3.4
-    # via requests
-letsbuilda-pypi==5.0.0b3
+    # via
+    #   anyio
+    #   httpx
+    #   requests
+letsbuilda-pypi==5.0.0
     # via -r requirements.in
 python-dotenv==1.0.0
     # via -r requirements.in
 requests==2.31.0
+    # via -r requirements.in
+sniffio==1.3.0
     # via
-    #   -r requirements.in
-    #   letsbuilda-pypi
+    #   anyio
+    #   httpcore
+    #   httpx
 urllib3==2.0.4
     # via requests
 xmltodict==0.13.0
