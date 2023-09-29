@@ -1,7 +1,7 @@
 """Entry point for the loader."""
 
-from letsbuilda.pypi import PyPIServices
 from httpx import Client
+from letsbuilda.pypi import PyPIServices
 
 from .loader import main
 
