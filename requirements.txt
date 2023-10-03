@@ -35,7 +35,7 @@ sniffio==1.3.0
     #   anyio
     #   httpcore
     #   httpx
-urllib3==2.0.4
+urllib3==2.0.6
     # via requests
 xmltodict==0.13.0
     # via letsbuilda-pypi
