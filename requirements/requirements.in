@@ -1,0 +1,8 @@
+# Requirements
+# --index-url=http://pypi.example.com/simple
+# --no-cache-dir
+
+# Core
+letsbuilda-pypi>=5.0.0b3
+requests
+python-dotenv

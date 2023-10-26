@@ -1,0 +1,2 @@
+# Require DevOps signoff on CI changes
+.github @vipyrsec/devops
