@@ -54,7 +54,7 @@ function Invoke-Upgrade-Deps
     pre-commit autoupdate
     pip-compile --upgrade --output-file requirements/requirements.txt requirements/requirements.in
     pip-compile --upgrade --output-file requirements/requirements-dev.txt requirements/requirements-dev.in
-    pip-compile --upgrade --output-file requirements/requirements-tests.txtrequirements/requirements-tests.in
+    pip-compile --upgrade --output-file requirements/requirements-tests.txt requirements/requirements-tests.in
     pip-compile --upgrade --output-file requirements/requirements-docs.txt requirements/requirements-docs.in
 }
 
