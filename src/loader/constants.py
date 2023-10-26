@@ -26,10 +26,10 @@ class _Dragonfly(EnvConfig, env_prefix="dragonfly"):
 
     base_url: str = "https://dragonfly.vipyrsec.com"
     auth0_domain: str = "vipyrsec.us.auth0.com"
-    client_id: SecretStr
-    client_secret: SecretStr
-    username: SecretStr
-    password: SecretStr
+    client_id: SecretStr = ""
+    client_secret: SecretStr = ""
+    username: SecretStr = ""
+    password: SecretStr = ""
     audience: str = "https://dragonfly.vipyrsec.com"
 
 
