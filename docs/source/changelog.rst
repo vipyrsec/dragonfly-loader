@@ -5,4 +5,3 @@ Changelog
 - :feature:`-` Bump to Python 3.12
 - :feature:`-` Add automated Sphinx documentation
 - :feature:`-` Move all dependencies to ``requirements/`` folder
-
