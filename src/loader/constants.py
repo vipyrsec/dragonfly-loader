@@ -6,8 +6,8 @@ By default, the values defined in the classes are used, these can be overridden 
 An `.env` file is used to populate env vars, if present.
 """
 
-
-from pydantic_settings import BaseSettings, SecretStr, SettingsConfigDict
+from pydantic import SecretStr
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class EnvConfig(BaseSettings):
