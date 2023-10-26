@@ -6,10 +6,7 @@ By default, the values defined in the classes are used, these can be overridden 
 An `.env` file is used to populate env vars, if present.
 """
 
-from os import getenv
-from typing import ClassVar, Self
 
-from pydantic import root_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -34,5 +31,6 @@ class _Dragonfly(EnvConfig, env_prefix="dragonfly"):
     username: str
     password: str
     audience: str = "https://dragonfly.vipyrsec.com"
+
 
 Dragonfly = _Dragonfly()
