@@ -7,7 +7,7 @@ An `.env` file is used to populate env vars, if present.
 """
 
 
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings, SecretStr, SettingsConfigDict
 
 
 class EnvConfig(BaseSettings):
@@ -26,10 +26,10 @@ class _Dragonfly(EnvConfig, env_prefix="dragonfly"):
 
     base_url: str = "https://dragonfly.vipyrsec.com"
     auth0_domain: str = "vipyrsec.us.auth0.com"
-    client_id: str
-    client_secret: str
-    username: str
-    password: str
+    client_id: SecretStr
+    client_secret: SecretStr
+    username: SecretStr
+    password: SecretStr
     audience: str = "https://dragonfly.vipyrsec.com"
 
 

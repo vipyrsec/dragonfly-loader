@@ -9,10 +9,10 @@ from loader.constants import Dragonfly
 def get_access_token(*, http_client: Client) -> str:
     """Get an access token from Auth0."""
     payload = {
-        "client_id": Dragonfly.client_id,
-        "client_secret": Dragonfly.client_secret,
-        "username": Dragonfly.username,
-        "password": Dragonfly.password,
+        "client_id": Dragonfly.client_id.get_secret_value(),
+        "client_secret": Dragonfly.client_secret.get_secret_value(),
+        "username": Dragonfly.username.get_secret_value(),
+        "password": Dragonfly.password.get_secret_value(),
         "audience": Dragonfly.audience,
         "grant_type": "password",
     }
