@@ -41,6 +41,8 @@ select = ["ALL"]
     "S101", # (Use of `assert` detected) - Yes, that's the point
     "PT004", # (Fixture `*` does not return anything, add leading underscore) - Used for pytest fixtures
     "ARG001", # (Unused function argument: `*`) - Used for pytest fixtures
+    "S105", # (Possible hardcoded password in variable) - Used to mock access tokens
+    "S106", # (Possible hardcoded password in argument) - Used to mock access tokens
 ]
 
 [tool.ruff.pydocstyle]
