@@ -11,10 +11,9 @@ repository = "https://github.com/vipyrsec/dragonfly-loader/"
 dev = [
     "pip-tools",
     "pre-commit",
-    "black",
     "ruff",
+    "mypy",
 ]
-
 tests = [
     "pytest",
 ]
@@ -24,18 +23,21 @@ requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.dynamic.dependencies]
-file = ["requirements.txt"]
-
-[tool.black]
-target-version = ["py311"]
-line-length = 120
+file = ["requirements/requirements.txt"]
 
 [tool.ruff]
+preview = true
+unsafe-fixes = true
 target-version = "py311"
 line-length = 120
-select = ["ALL"]
 
-[tool.ruff.extend-per-file-ignores]
+[tool.ruff.lint]
+select = ["ALL"]
+ignore=[
+    "CPY001", # (Missing copyright notice at top of file)
+]
+
+[tool.ruff.lint.extend-per-file-ignores]
 "tests/*" = [
     "INP001", # (File `tests/*.py` is part of an implicit namespace package. Add an `__init__.py`.) - Tests are not modules
     "S101", # (Use of `assert` detected) - Yes, that's the point
@@ -45,5 +47,5 @@ select = ["ALL"]
     "S106", # (Possible hardcoded password in argument) - Used to mock access tokens
 ]
 
-[tool.ruff.pydocstyle]
+[tool.ruff.lint.pydocstyle]
 convention = "numpy"

@@ -25,7 +25,7 @@ def get_access_token(*, http_client: Client) -> str:
     res = http_client.post(f"https://{Settings.auth0_domain}/oauth/token", json=payload)
     res.raise_for_status()
     json = res.json()
-    return json["access_token"]
+    return json["access_token"]  # type: ignore[no-any-return]
 
 
 def fetch_packages(*, pypi_client: PyPIServices) -> list[tuple[str, str]]:
