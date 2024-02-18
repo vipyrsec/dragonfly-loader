@@ -33,6 +33,9 @@ line-length = 120
 
 [tool.ruff.lint]
 select = ["ALL"]
+ignore=[
+    "CPY001", # (Missing copyright notice at top of file)
+]
 
 [tool.ruff.lint.extend-per-file-ignores]
 "tests/*" = [
