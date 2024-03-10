@@ -22,13 +22,13 @@ idna==3.6
     # via
     #   anyio
     #   httpx
-letsbuilda-pypi==5.0.2
+letsbuilda-pypi==5.1.0
     # via -r requirements/requirements.in
 pydantic==2.6.1
     # via pydantic-settings
 pydantic-core==2.16.2
     # via pydantic
-pydantic-settings==2.2.0
+pydantic-settings==2.2.1
     # via -r requirements/requirements.in
 python-dotenv==1.0.1
     # via pydantic-settings
