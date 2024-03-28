@@ -1,9 +1,13 @@
 """Main entrypoint for the loader."""
 
+from logging import getLogger
+
 from httpx import Client
 from letsbuilda.pypi import PyPIServices
 
 from loader.constants import Settings
+
+logger = getLogger(__name__)
 
 
 def build_authorization_header(access_token: str) -> dict[str, str]:
@@ -23,7 +27,6 @@ def get_access_token(*, http_client: Client) -> str:
     }
 
     res = http_client.post(f"https://{Settings.auth0_domain}/oauth/token", json=payload)
-    res.raise_for_status()
     json = res.json()
     return json["access_token"]  # type: ignore[no-any-return]
 
@@ -41,8 +44,7 @@ def load_packages(packages: list[tuple[str, str]], *, http_client: Client, acces
     payload = [{"name": name, "version": version} for name, version in packages]
     headers = build_authorization_header(access_token)
 
-    res = http_client.post(f"{Settings.base_url}/batch/package", json=payload, headers=headers)
-    res.raise_for_status()
+    http_client.post(f"{Settings.base_url}/batch/package", json=payload, headers=headers)
 
 
 def main(*, http_client: Client, pypi_client: PyPIServices) -> None:
