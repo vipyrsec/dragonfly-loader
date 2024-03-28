@@ -42,6 +42,7 @@ def fetch_packages(*, pypi_client: PyPIServices) -> list[tuple[str, str]]:
 def load_packages(packages: list[tuple[str, str]], *, http_client: Client, access_token: str) -> None:
     """Load all of the given packages into the Dragonfly API, using the given HTTP session and access token."""
     payload = [{"name": name, "version": version} for name, version in packages]
+    logger.info("Package payload: %s", payload)
     headers = build_authorization_header(access_token)
 
     http_client.post(f"{Settings.base_url}/batch/package", json=payload, headers=headers)
@@ -52,5 +53,6 @@ def main(*, http_client: Client, pypi_client: PyPIServices) -> None:
     access_token = get_access_token(http_client=http_client)
 
     packages = fetch_packages(pypi_client=pypi_client)
+    logger.info("Fetched packages: %s", packages)
 
     load_packages(packages, http_client=http_client, access_token=access_token)
