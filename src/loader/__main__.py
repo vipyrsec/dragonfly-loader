@@ -4,19 +4,12 @@ import logging
 
 from httpx import Client, HTTPError, Request, Response
 from letsbuilda.pypi import PyPIServices
+from logging_config import configure_logger
 
 from .loader import main
 
+configure_logger()
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-
-ch = logging.StreamHandler()
-ch.setLevel(logging.DEBUG)
-
-formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-ch.setFormatter(formatter)
-
-logger.addHandler(ch)
 
 
 def log_request(request: Request) -> None:
