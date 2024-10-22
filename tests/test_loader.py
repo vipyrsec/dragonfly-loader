@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from unittest.mock import Mock
 
 import pytest
+
 from loader import loader
 from loader.constants import Settings
 
