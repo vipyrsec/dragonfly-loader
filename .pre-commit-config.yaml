@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: cef0300fd0fc4d2a87a85fa2093c6b283ea36f4b  # frozen: v5.0.0
     hooks:
       - id: check-case-conflict
       - id: check-merge-conflict
@@ -13,6 +13,6 @@ repos:
         args: [ --fix=lf ]
       - id: end-of-file-fixer
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.2.2"
+    rev: "8983acb92ee4b01924893632cf90af926fa608f0"  # frozen: v0.7.0
     hooks:
       - id: ruff
