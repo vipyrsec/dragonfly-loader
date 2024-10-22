@@ -1,47 +1,78 @@
 [project]
 name = "dragonfly-loader"
 version = "1.0.1"
-description = "Loads all the packages from the PyPI RSS feed into the Dragonfly API"
-dynamic = ["dependencies"]
+description = "Loads releases from the PyPI RSS feed into the Dragonfly Mainframe."
+license = {text = "MIT"}
+requires-python = ">=3.12,<3.13.dev0"
+dependencies = [
+  # Core
+  "pydantic-settings==2.2.1",
+  # PyPI integration
+  "letsbuilda-pypi==5.1.0",
+]
 
-[project.urls]
-repository = "https://github.com/vipyrsec/dragonfly-loader/"
-
-[project.optional-dependencies]
-dev = ["pip-tools", "pre-commit", "ruff", "mypy"]
-tests = ["pytest"]
+  [project.optional-dependencies]
+  dev = ["pre-commit==4.0.1", "pyright==1.1.385", "ruff==0.7.0"]
+  test = ["pytest==8.3.3"]
 
 [build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
 
-[tool.setuptools.dynamic.dependencies]
-file = ["requirements/requirements.txt"]
+[tool.pdm.scripts]
+format = "ruff format"
+lint = "ruff check --fix"
+type-check = "pyright"
+pre-commit = "pre-commit run --all-files"
+test = "pytest"
+all = {composite = ["format", "lint", "type-check", "test"]}
+
+[tool.pyright]
+include = ["src/**/*.py"]
+
+venvPath = "."
+venv = ".venv"
 
 [tool.ruff]
-preview = true
+preview = false
 unsafe-fixes = true
 target-version = "py311"
 line-length = 120
 
-[tool.ruff.lint]
-select = ["ALL"]
-ignore = [
-  "CPY001", # (Missing copyright notice at top of file)
-  "DOC201", # `return` is not documented in docstring
-  "DOC402", # `yield` is not documented in docstring
-  "DOC501", # Raised exception `{id}` missing from docstring
-]
+  [tool.ruff.lint]
+  select = ["ALL"]
+  ignore = [
+    "DOC201", # `return` is not documented in docstring
+    "DOC402", # `yield` is not documented in docstring
+    "DOC501", # Raised exception `{id}` missing from docstring
 
-[tool.ruff.lint.extend-per-file-ignores]
-"tests/*" = [
-  "INP001", # (File `tests/*.py` is part of an implicit namespace package. Add an `__init__.py`.) - Tests are not modules
-  "S101",   # (Use of `assert` detected) - Yes, that's the point
-  "PT004",  # (Fixture `*` does not return anything, add leading underscore) - Used for pytest fixtures
-  "ARG001", # (Unused function argument: `*`) - Used for pytest fixtures
-  "S105",   # (Possible hardcoded password in variable) - Used to mock access tokens
-  "S106",   # (Possible hardcoded password in argument) - Used to mock access tokens
-]
+    # Conflicting rules with format (https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules)
+    'COM812',
+    'COM819',
+    'D206',
+    'D300',
+    'E111',
+    'E114',
+    'E117',
+    'ISC001',
+    'ISC002',
+    'Q000',
+    'Q001',
+    'Q002',
+    'Q003',
+    'W191',
+  ]
 
-[tool.ruff.lint.pydocstyle]
-convention = "numpy"
+    [tool.ruff.lint.extend-per-file-ignores]
+    "docs/*" = [
+      "INP001", # (File `docs/*.py` is part of an implicit namespace package. Add an `__init__.py`.) - Docs are not modules
+    ]
+    "tests/*" = [
+      "INP001", # (File `tests/*.py` is part of an implicit namespace package. Add an `__init__.py`.) - Tests are not modules
+      "S101",   # (Use of `assert` detected) - Yes, that's the point
+      "S105",   # Possible hardcoded password -- Mock access tokens are used in tests.
+      "S106",   # Possible hardcoded password -- Mock access tokens are used in tests.
+    ]
+
+    [tool.ruff.lint.pydocstyle]
+    convention = "numpy"

@@ -1,5 +1,0 @@
-# Core
-pydantic-settings
-
-# PyPI integration
-letsbuilda-pypi>=5.0.0b3

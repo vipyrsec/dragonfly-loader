@@ -1,3 +1,3 @@
-# dragonfly-loader
+# Dragonfly Loader
 
-Automated job for loading new releases into the Mainframe
+An automated job to load new releases from the PyPI RSS feed into the [Dragonfly Mainframe](https://github.com/vipyrsec/dragonfly-mainframe).
