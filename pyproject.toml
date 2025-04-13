@@ -1,78 +1,108 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "dragonfly-loader"
 version = "1.0.1"
 description = "Loads releases from the PyPI RSS feed into the Dragonfly Mainframe."
+authors = [{name = "Vipyr Security Developers", email = "support@vipyrsec.com"}]
 license = {text = "MIT"}
-requires-python = ">=3.12,<3.13.dev0"
-dependencies = [
-  # Core
-  "pydantic-settings==2.2.1",
-  # PyPI integration
-  "letsbuilda-pypi==5.1.0",
-]
+classifiers = ["Private :: Do Not Upload"]
 
-  [project.optional-dependencies]
-  dev = ["pre-commit==4.0.1", "pyright==1.1.385", "ruff==0.7.0"]
-  test = ["pytest==8.3.3"]
+requires-python = ">=3.12,<3.13"
+dependencies = ["letsbuilda-pypi==5.1.0", "pydantic-settings==2.2.1"]
 
-[build-system]
-requires = ["pdm-backend"]
-build-backend = "pdm.backend"
+  [project.urls]
+  homepage = "https://vipyrsec.com/"
+  source = "https://github.com/vipyrsec/dragonfly-loader.git"
+  issues = "https://github.com/vipyrsec/dragonfly-loader/issues"
 
-[tool.pdm.scripts]
-format = "ruff format"
-lint = "ruff check --fix"
-type-check = "pyright"
-pre-commit = "pre-commit run --all-files"
-test = "pytest"
-all = {composite = ["format", "lint", "type-check", "test"]}
+[dependency-groups]
+dev = ["pre-commit", "pyright", "ruff"]
+test = ["coverage", "pytest"]
 
-[tool.pyright]
-include = ["src/**/*.py"]
+[tool.uv]
+default-groups = ["dev", "test"]
 
-venvPath = "."
-venv = ".venv"
+[tool.hatch.build.targets.wheel]
+packages = ["src/loader"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
 
 [tool.ruff]
-preview = false
-unsafe-fixes = true
-target-version = "py311"
 line-length = 120
+target-version = "py312"
 
   [tool.ruff.lint]
   select = ["ALL"]
+
   ignore = [
-    "DOC201", # `return` is not documented in docstring
-    "DOC402", # `yield` is not documented in docstring
-    "DOC501", # Raised exception `{id}` missing from docstring
+    "FIX",   # https://docs.astral.sh/ruff/rules/#flake8-fixme-fix
+    "G004",  # https://docs.astral.sh/ruff/rules/#flake8-logging-log
+    "N818",  # https://docs.astral.sh/ruff/rules/error-suffix-on-exception-name/
+    "S101",  # https://docs.astral.sh/ruff/rules/assert/
+    "TC001", # https://docs.astral.sh/ruff/rules/typing-only-first-party-import/
+    "TC002", # https://docs.astral.sh/ruff/rules/typing-only-third-party-import/
+    "TC003", # https://docs.astral.sh/ruff/rules/typing-only-standard-library-import/
+    "TD002", # https://docs.astral.sh/ruff/rules/missing-todo-author/
+    "TD003", # https://docs.astral.sh/ruff/rules/missing-todo-link/
 
     # Conflicting rules with format (https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules)
-    'COM812',
-    'COM819',
-    'D206',
-    'D300',
-    'E111',
-    'E114',
-    'E117',
-    'ISC001',
-    'ISC002',
-    'Q000',
-    'Q001',
-    'Q002',
-    'Q003',
-    'W191',
+    "COM812",
+    "COM819",
+    "D206",
+    "D300",
+    "E111",
+    "E114",
+    "E117",
+    "ISC001",
+    "ISC002",
+    "Q000",
+    "Q001",
+    "Q002",
+    "Q003",
+    "W191",
   ]
 
-    [tool.ruff.lint.extend-per-file-ignores]
-    "docs/*" = [
-      "INP001", # (File `docs/*.py` is part of an implicit namespace package. Add an `__init__.py`.) - Docs are not modules
-    ]
+    [tool.ruff.lint.isort]
+    known-first-party = ["loader", "logging_config"]
+
+    [tool.ruff.lint.per-file-ignores]
     "tests/*" = [
-      "INP001", # (File `tests/*.py` is part of an implicit namespace package. Add an `__init__.py`.) - Tests are not modules
-      "S101",   # (Use of `assert` detected) - Yes, that's the point
-      "S105",   # Possible hardcoded password -- Mock access tokens are used in tests.
-      "S106",   # Possible hardcoded password -- Mock access tokens are used in tests.
+      "ANN",
+      "D",
+      "INP",
+      "PLR2004", # https://docs.astral.sh/ruff/rules/magic-value-comparison/
+      "S105",    # https://docs.astral.sh/ruff/rules/hardcoded-password-string/
+      "S106",    # https://docs.astral.sh/ruff/rules/hardcoded-password-func-arg/
+      "S107",    # https://docs.astral.sh/ruff/rules/hardcoded-password-default/
     ]
 
     [tool.ruff.lint.pydocstyle]
-    convention = "numpy"
+    convention = "google"
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+
+typeCheckingMode = "strict"
+# deprecateTypingAliases = true
+# reportCallInDefaultInitializer = "error"
+# reportImplicitOverride = "error"
+# reportImplicitStringConcatenation = "error"
+# reportImportCycles = "error"
+# reportMissingSuperCall = "error"
+# reportPropertyTypeMismatch = "error"
+# reportShadowedImports = "error"
+# reportUninitializedInstanceVariable = "error"
+# reportUnnecessaryTypeIgnoreComment = "error"
+# reportUnusedCallResult = "error"
+
+[tool.coverage.run]
+branch = false
+source = ["src/loader/"]
+
+[tool.coverage.report]
+fail_under = 100
