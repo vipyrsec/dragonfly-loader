@@ -11,7 +11,7 @@ license = {text = "MIT"}
 classifiers = ["Private :: Do Not Upload"]
 
 requires-python = ">=3.12,<3.13"
-dependencies = ["letsbuilda-pypi==5.1.0", "pydantic-settings==2.2.1"]
+dependencies = ["letsbuilda-pypi==5.2.1", "pydantic-settings==2.8.1"]
 
   [project.urls]
   homepage = "https://vipyrsec.com/"
