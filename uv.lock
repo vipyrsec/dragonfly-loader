@@ -102,8 +102,8 @@ test = [
 
 [package.metadata]
 requires-dist = [
-    { name = "letsbuilda-pypi", specifier = "==5.1.0" },
-    { name = "pydantic-settings", specifier = "==2.2.1" },
+    { name = "letsbuilda-pypi", specifier = "==5.2.1" },
+    { name = "pydantic-settings", specifier = "==2.8.1" },
 ]
 
 [package.metadata.requires-dev]
@@ -192,15 +192,15 @@ wheels = [
 
 [[package]]
 name = "letsbuilda-pypi"
-version = "5.1.0"
+version = "5.2.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "httpx" },
     { name = "xmltodict" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/fa/87/28ff42d8bd5e766305410082a9b7d43ca0ed8cb8cea05efc64da920c15a0/letsbuilda-pypi-5.1.0.tar.gz", hash = "sha256:e5d9f14803ea74d6112b33256aef6f829163c5b8407142f5e2250b5093b8ef5a", size = 7676 }
+sdist = { url = "https://files.pythonhosted.org/packages/10/ae/5eb876c1703ab6bccb82629f2a1a50ce6950c6f36718444de59f5612d420/letsbuilda_pypi-5.2.1.tar.gz", hash = "sha256:9bc9ab85a3b578437824018809775640fdd7638fb6b5456edbf0f80fce85019a", size = 7727 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f0/43/1039f855c4e1e3cb12c06518757d3c7b3fde8ff706eb82f5da175a97d12d/letsbuilda_pypi-5.1.0-py3-none-any.whl", hash = "sha256:5a0dff883e0d2307a558b8bfe1ce70beb120d2c036fbeab03a5b860d0718a968", size = 8006 },
+    { url = "https://files.pythonhosted.org/packages/b1/77/0d3eba0ce2408d6e0bc4b5187f6dfe2a6794dba3b12837b3f908fbfaa37a/letsbuilda_pypi-5.2.1-py3-none-any.whl", hash = "sha256:b55a5ea25cf7bf85a7031d3517760d9802ec83bcab354465161e80f7fcd0914b", size = 8029 },
 ]
 
 [[package]]
@@ -297,15 +297,15 @@ wheels = [
 
 [[package]]
 name = "pydantic-settings"
-version = "2.2.1"
+version = "2.8.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pydantic" },
     { name = "python-dotenv" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/00/a4/89191c3cce6e6f79b734bfe81d3a8f176d21b57b034689cfbdc57d61c412/pydantic_settings-2.2.1.tar.gz", hash = "sha256:00b9f6a5e95553590434c0fa01ead0b216c3e10bc54ae02e37f359948643c5ed", size = 35495 }
+sdist = { url = "https://files.pythonhosted.org/packages/88/82/c79424d7d8c29b994fb01d277da57b0a9b09cc03c3ff875f9bd8a86b2145/pydantic_settings-2.8.1.tar.gz", hash = "sha256:d5c663dfbe9db9d5e1c646b2e161da12f0d734d422ee56f567d0ea2cee4e8585", size = 83550 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/99/ee/24ec87e3a91426497c5a2b9880662d19cfd640342d477334ebc60fc2c276/pydantic_settings-2.2.1-py3-none-any.whl", hash = "sha256:0235391d26db4d2190cb9b31051c4b46882d28a51533f97440867f012d4da091", size = 13150 },
+    { url = "https://files.pythonhosted.org/packages/0b/53/a64f03044927dc47aafe029c42a5b7aabc38dfb813475e0e1bf71c4a59d0/pydantic_settings-2.8.1-py3-none-any.whl", hash = "sha256:81942d5ac3d905f7f3ee1a70df5dfb62d5569c12f51a5a647defc1c3d9ee2e9c", size = 30839 },
 ]
 
 [[package]]
