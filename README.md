@@ -13,8 +13,5 @@ Required runtime settings:
 - `CF_ACCESS_CLIENT_ID`
 - `CF_ACCESS_CLIENT_SECRET`
 
-Set `DISABLE_AUTH=true` only for local or test scenarios where the mainframe is
-also configured to bypass authentication.
-
 For staging, `BASE_URL` should be the public protected hostname rather than an
 in-cluster origin, for example `https://dragonfly-staging.vipyrsec.com`.
