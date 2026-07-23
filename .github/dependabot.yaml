@@ -26,13 +26,13 @@ updates:
     directory: /
     multi-ecosystem-group: infra
     patterns:
-      - "*"
+      - '*'
 
   - package-ecosystem: docker
     directory: /
     multi-ecosystem-group: infra
     patterns:
-      - "*"
+      - '*'
 
   - package-ecosystem: uv
     directory: /
@@ -45,4 +45,4 @@ updates:
         applies-to: version-updates
     multi-ecosystem-group: apps
     patterns:
-      - "*"
+      - '*'
