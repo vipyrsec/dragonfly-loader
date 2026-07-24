@@ -32,8 +32,10 @@ def load_packages(packages: list[tuple[str, str]], *, http_client: Client, heade
 
 def main(*, http_client: Client, pypi_client: PyPIServices) -> None:
     """Run the loader."""
-    headers = {} if Settings.disable_auth else build_access_headers()
-
     packages = fetch_packages(pypi_client=pypi_client)
 
-    load_packages(packages, http_client=http_client, headers=headers)
+    load_packages(
+        packages,
+        http_client=http_client,
+        headers=build_access_headers(),
+    )

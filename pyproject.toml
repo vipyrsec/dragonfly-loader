@@ -11,7 +11,7 @@ license = {text = "MIT"}
 classifiers = ["Private :: Do Not Upload"]
 
 requires-python = ">=3.13,<3.14"
-dependencies = ["letsbuilda-pypi==5.2.1", "pydantic-settings==2.13.1"]
+dependencies = ["letsbuilda-pypi==6.0.1", "pydantic-settings==2.14.2"]
 
   [project.urls]
   homepage = "https://vipyrsec.com/"
@@ -19,7 +19,7 @@ dependencies = ["letsbuilda-pypi==5.2.1", "pydantic-settings==2.13.1"]
   issues = "https://github.com/vipyrsec/dragonfly-loader/issues"
 
 [dependency-groups]
-dev = ["pre-commit", "pyright", "ruff"]
+dev = ["pre-commit", "pyright", "ruff>=0.15.22,<0.16"]
 test = ["coverage", "pytest"]
 
 [tool.uv]

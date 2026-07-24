@@ -13,7 +13,6 @@ class _Settings(BaseSettings):
     base_url: str = "https://dragonfly.vipyrsec.com"
     cf_access_client_id: str = ""
     cf_access_client_secret: str = ""
-    disable_auth: bool = False
 
 
 Settings = _Settings()

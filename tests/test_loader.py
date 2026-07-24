@@ -1,5 +1,6 @@
 """Stub test file."""
 
+import runpy
 from dataclasses import dataclass
 from unittest.mock import Mock
 
@@ -21,7 +22,6 @@ ENV = {
     "BASE_URL": "https://example.com",
     "CF_ACCESS_CLIENT_ID": "test client id",
     "CF_ACCESS_CLIENT_SECRET": "test client secret",
-    "DISABLE_AUTH": False,
 }
 
 
@@ -115,25 +115,22 @@ def test_main(monkeypatch: pytest.MonkeyPatch) -> None:
     )
 
 
-def test_main_disable_auth(monkeypatch: pytest.MonkeyPatch) -> None:
-    """Test that auth bypass requires explicit configuration."""
-    mock_packages = [
-        ("a", "1.0.0"),
-        ("b", "1.0.1"),
-    ]
+def test_module_entrypoint(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Test that the module entrypoint wires the HTTP clients into the loader."""
+    http_client = Mock()
+    pypi_client = Mock()
+    client_factory = Mock(return_value=http_client)
+    pypi_factory = Mock(return_value=pypi_client)
+    main_mock = Mock()
+    monkeypatch.setattr("httpx.Client", client_factory)
+    monkeypatch.setattr("letsbuilda.pypi.PyPIServices", pypi_factory)
+    monkeypatch.setattr("loader.loader.main", main_mock)
 
-    mock_http_client = Mock()
-    mock_pypi_client = Mock()
+    runpy.run_module("loader.__main__", run_name="__main__")
 
-    fetch_packages_mock = Mock(return_value=mock_packages)
-    build_access_headers_mock = Mock(return_value={"should": "not be used"})
-    load_packages_mock = Mock()
-    monkeypatch.setattr(Settings, "disable_auth", True)
-    monkeypatch.setattr("loader.loader.fetch_packages", fetch_packages_mock)
-    monkeypatch.setattr("loader.loader.build_access_headers", build_access_headers_mock)
-    monkeypatch.setattr("loader.loader.load_packages", load_packages_mock)
-
-    loader.main(http_client=mock_http_client, pypi_client=mock_pypi_client)
-
-    build_access_headers_mock.assert_not_called()
-    load_packages_mock.assert_any_call(mock_packages, http_client=mock_http_client, headers={})
+    client_factory.assert_called_once_with()
+    pypi_factory.assert_called_once_with(http_client=http_client)
+    main_mock.assert_called_once_with(
+        http_client=http_client,
+        pypi_client=pypi_client,
+    )
